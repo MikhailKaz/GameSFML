@@ -1,3 +1,5 @@
+#include "SFML/Graphics/Texture.hpp"
+
 class Resource{
 
     public:
