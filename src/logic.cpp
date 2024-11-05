@@ -9,11 +9,6 @@ Logic::Logic(){
     direc = 0;
 
     posY = herosprite.getPosition().y;
- 
-    posX[0] = herosprite.getPosition().x - 300;
-    posX[1] = herosprite.getPosition().x + 300;
-
-    view = window.getDefaultView();
 
 }
 
@@ -37,6 +32,10 @@ void Logic::setSprite(std::vector <sf::Sprite> platform_s){
 void Logic::mainCycle(){
 
     window.create(sf::VideoMode(1200,1200),"Game",sf::Style::Fullscreen);
+    view = window.getDefaultView();
+ 
+    posX[0] = herosprite.getPosition().x - 300;
+    posX[1] = herosprite.getPosition().x + 300;
 
     while (window.isOpen()){
 
@@ -44,7 +43,7 @@ void Logic::mainCycle(){
 
             while(window.pollEvent(event)){ // пока есть события обрабатываем их
               
-                if(event.type == sf::Event::Closed){ // хуй знает
+                if(event.type == sf::Event::Closed){ // событие закрытия окна
                     window.close();
                 }
 
@@ -88,6 +87,8 @@ void Logic::mainCycle(){
                 }
             }
 
+// проверка нажатия клавиш A/D (direcArr) и направления движения (direc)
+
             if(direcArr[0] && direc == -1){
                 herosprite.setTexture(herotextureL);      
                 herosprite.move(-0.05,0);
@@ -97,6 +98,8 @@ void Logic::mainCycle(){
                 herosprite.move(0.05,0);
             }
 
+// прыжок
+         
             for(const sf::Event::KeyEvent ev : pressedKeys){ 
 
                 switch (ev.code){
@@ -112,15 +115,14 @@ void Logic::mainCycle(){
 
                         break;
 
-                    /*case sf::Keyboard::C :
-                    if(ev.control){ // ?
-                        return 0;
-                    }
+                    case sf::Keyboard::Escape:
+                        return;
+
                     default:
-                    break;*/
+                        break;
                 }  
             }
-
+        
             if(jmp == true){
 
                 if(direc_bool){
@@ -138,6 +140,8 @@ void Logic::mainCycle(){
                 }
             }
 
+// движеие окна
+            
             if(herosprite.getPosition().x < posX[0]){
                 view.move(-0.05,0);
                 posX[0] -= 0.05;

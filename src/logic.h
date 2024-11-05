@@ -1,16 +1,13 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/Texture.hpp"
-#include "SFML/Window/VideoMode.hpp"
 #include <SFML/Graphics.hpp>
-#include "SFML/Window/Keyboard.hpp"
 #include <vector>
 
 class Logic{
 
     public:
 
-        //sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(1000, 1000), "Game");
         sf::RenderWindow window ;
 
         sf::Sprite herosprite;

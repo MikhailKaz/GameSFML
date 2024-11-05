@@ -1,5 +1,3 @@
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Window/Keyboard.hpp"
 #include <SFML/Graphics.hpp>
 #include "objects.h"
 #include "logic.h"
