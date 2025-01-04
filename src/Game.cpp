@@ -5,11 +5,10 @@
 int main()
 {
     Objects obj;
-    obj.init();
 
     Logic log;
-    log.setHeroSprite(obj.getHeroSprite());
-    log.setTexture(obj.getTexture());
+    log.setCharactersSprite(obj.getCharactersSprite());
+    log.setCharactersTexture(obj.getCharactersTexture());
     log.setSprite(obj.getSprite());
     
     log.mainCycle();

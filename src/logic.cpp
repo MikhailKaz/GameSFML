@@ -8,20 +8,24 @@ Logic::Logic(){
 
     direc = 0;
 
-    posY = herosprite.getPosition().y;
+    posY = heroSprite.getPosition().y;
 
 }
 
-void Logic::setHeroSprite(sf::Sprite sprite){
+void Logic::setCharactersSprite(std::map <std::string, sf::Sprite> dictCharactersSprite){
 
-    herosprite = sprite;
+    heroSprite = dictCharactersSprite ["heroSprite"];
+    enemySprite = dictCharactersSprite ["enemySprite"];
 
 }
 
-void Logic::setTexture(sf::Texture * arr){ // по идее это не работает потому что нужно получать значения указателя через *
+void Logic::setCharactersTexture(std::map <std::string,sf::Texture> dictCharactersTexture){
 
-    herotextureL = arr[0];
-    herotextureR = arr[1];
+    heroTextureL = dictCharactersTexture["heroTextureL"];
+    heroTextureR = dictCharactersTexture["heroTextureR"];
+
+    enemyTextureL = dictCharactersTexture["enemyTextureL"];
+    enemyTextureR = dictCharactersTexture["enemyTextureR"];
 
 }
 
@@ -34,8 +38,8 @@ void Logic::mainCycle(){
     window.create(sf::VideoMode(1200,1200),"Game",sf::Style::Fullscreen);
     view = window.getDefaultView();
  
-    posX[0] = herosprite.getPosition().x - 300;
-    posX[1] = herosprite.getPosition().x + 300;
+    posX[0] = heroSprite.getPosition().x - 300;
+    posX[1] = heroSprite.getPosition().x + 300;
 
     while (window.isOpen()){
 
@@ -78,11 +82,16 @@ void Logic::mainCycle(){
                     }
                     if(event.key.code == sf::Keyboard::A){
                         direcArr[0] = false;
-                        direc = 1;
+                        if(direcArr[1] == true){
+                            direc = 1;
+                        }
+                        
                     }
                     if(event.key.code == sf::Keyboard::D){
                         direcArr[1] = false;
-                        direc = -1;
+                        if(direcArr[0] == true){
+                            direc = -1;
+                        }
                     }
                 }
             }
@@ -90,12 +99,12 @@ void Logic::mainCycle(){
 // проверка нажатия клавиш A/D (direcArr) и направления движения (direc)
 
             if(direcArr[0] && direc == -1){
-                herosprite.setTexture(herotextureL);      
-                herosprite.move(-0.05,0);
+                heroSprite.setTexture(heroTextureL);      
+                heroSprite.move(-0.05,0);
             }
             else if(direcArr[1] && direc == 1){
-                herosprite.setTexture(herotextureR);      
-                herosprite.move(0.05,0);
+                heroSprite.setTexture(heroTextureR);      
+                heroSprite.move(0.05,0);
             }
 
 // прыжок
@@ -108,7 +117,7 @@ void Logic::mainCycle(){
                     case sf::Keyboard::Space : 
                         
                         if(jmp == false){
-                            posY = herosprite.getPosition().y;
+                            posY = heroSprite.getPosition().y;
                             jmp = true;
                             direc_bool = true; // direction
                         }
@@ -126,14 +135,14 @@ void Logic::mainCycle(){
             if(jmp == true){
 
                 if(direc_bool){
-                    herosprite.move(0,-0.1); // скорость прыжка
-                    if(posY - 200 > herosprite.getPosition().y){
+                    heroSprite.move(0,-0.1); // скорость прыжка
+                    if(posY - 200 > heroSprite.getPosition().y){
                         direc_bool = false;
                     }
                 }
                 else{
-                    herosprite.move(0,0.05); // скорость падения
-                    if(herosprite.getPosition().y > posY){
+                    heroSprite.move(0,0.05); // скорость падения
+                    if(heroSprite.getPosition().y > posY){
                         jmp = false;
                         direc_bool = true;
                     }
@@ -142,16 +151,36 @@ void Logic::mainCycle(){
 
 // движеие окна
             
-            if(herosprite.getPosition().x < posX[0]){
+            if(heroSprite.getPosition().x < posX[0]){
                 view.move(-0.05,0);
                 posX[0] -= 0.05;
                 posX[1] -= 0.05;
             }
-            else if(herosprite.getPosition().x > posX[1]){
+            else if(heroSprite.getPosition().x > posX[1]){
                 view.move(0.05,0);
                 posX[1] += 0.05;
                 posX[0] += 0.05;
             }
+
+// движение enemy
+
+            if(enemySprite.getPosition().x < 2000){
+                enemySprite.move(0.05,0);
+            }
+            else{
+                enemySprite.setPosition(0,735);
+            }
+            if(enemySprite.getPosition().x + 30 > heroSprite.getPosition().x && 
+                    enemySprite.getPosition().x - 30 < heroSprite.getPosition().x){
+
+                if(enemySprite.getPosition().y - 30 < heroSprite.getPosition().y + 30){
+                    return;
+                } 
+            }
+            else if(enemySprite.getPosition().x > heroSprite.getPosition().x){
+            }
+
+// отрисовка
 
             window.clear();
             
@@ -161,7 +190,8 @@ void Logic::mainCycle(){
                 window.draw(var);
             }
 
-            window.draw(herosprite);
+            window.draw(enemySprite);
+            window.draw(heroSprite);
             window.display();
     }
 }

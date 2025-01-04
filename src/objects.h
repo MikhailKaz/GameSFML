@@ -7,10 +7,21 @@ class Objects{
 
 public:
 
-    sf::Texture herotextureL;
-    sf::Texture herotextureR;
+// characters
 
-    sf::Sprite herosprite;
+    sf::Texture heroTextureL;
+    sf::Texture heroTextureR;
+
+    sf::Sprite heroSprite;
+
+    //
+
+    sf::Texture enemyTextureL;
+    sf::Texture enemyTextureR;
+
+    sf::Sprite enemySprite;
+
+//  object
 
     sf::Texture platformTexture_1, platformTexture_2;
     sf::Sprite platformSprite_1, platformSprite_2;
@@ -22,10 +33,9 @@ public:
     Objects();
 
     std::vector <sf::Sprite> getSprite();
-    void init();
 
-    sf::Sprite getHeroSprite();
-    sf::Texture * getTexture();
+    std::map <std::string, sf::Sprite> getCharactersSprite();
+    std::map <std::string,sf::Texture> getCharactersTexture();
 
 };
 

@@ -10,8 +10,12 @@ class Logic{
 
         sf::RenderWindow window ;
 
-        sf::Sprite herosprite;
+        sf::Sprite heroSprite;
+        sf::Texture heroTextureR, heroTextureL;
 
+        sf::Sprite enemySprite;
+        sf::Texture enemyTextureR, enemyTextureL;
+        
         bool direc_bool, jmp;
 
         std::vector<sf::Event::KeyEvent> pressedKeys;
@@ -21,8 +25,6 @@ class Logic{
         bool direcArr[2]; // проверка нажатия клавиш A/D
         
         float posY, posX [2]; // параметры для движения камерой
-
-        sf::Texture herotextureR, herotextureL;
 
         sf::View view;
 
@@ -34,9 +36,9 @@ class Logic{
 
         void setSprite(std::vector <sf::Sprite>);
 
-        void setHeroSprite(sf::Sprite);
+        void setCharactersSprite(std::map <std::string, sf::Sprite>);
 
-        void setTexture(sf::Texture *);
+        void setCharactersTexture(std::map <std::string,sf::Texture>);
 
         void mainCycle();
 };

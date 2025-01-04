@@ -1,22 +1,26 @@
 #include "objects.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/Texture.hpp"
- 
+#include <map>
+
 Objects::Objects(){
 
+    heroTextureL.loadFromFile("images/HeroL.png");
+    heroTextureR.loadFromFile("images/HeroR.png");
 
-    herotextureL.loadFromFile("images/HeroL.png");
-    herotextureR.loadFromFile("images/HeroR.png");
+    heroSprite.setTexture(heroTextureR);
+    heroSprite.setPosition(900,735);
 
-    herosprite.setTexture(herotextureR);
-    herosprite.setPosition(900, 735);
+    heroSprite.setScale(sf::Vector2f(0.125f, 0.125f)); // размер спрайта
 
-    herosprite.setScale(sf::Vector2f(0.125f, 0.125f)); // размер спрайта
+    enemyTextureL.loadFromFile("images/enemyL.png");
+    enemyTextureR.loadFromFile("images/enemyR.png");
 
-    }
+    enemySprite.setTexture(enemyTextureR);
+    enemySprite.setPosition(300,735);
 
-void Objects::init(){
-
+    enemySprite.setScale(sf::Vector2f(0.5f, 0.5f)); // размер спрайта
+    
     platformTexture_1.loadFromFile("images/pngwing.png");
     platformTexture_2.loadFromFile("images/pngwingCut.png");
 
@@ -34,7 +38,6 @@ void Objects::init(){
         platforms.push_back(platformSprite_2);
 
     }
-
 }
 
 std::vector <sf::Sprite> Objects::getSprite(){
@@ -43,19 +46,27 @@ std::vector <sf::Sprite> Objects::getSprite(){
 
 }
 
-sf::Sprite Objects::getHeroSprite(){
+std::map <std::string, sf::Sprite> Objects::getCharactersSprite(){
 
-    return herosprite;
+    std::map <std::string, sf::Sprite> dictCharactersSprite;
+    
+    dictCharactersSprite ["heroSprite"] = heroSprite;
+    dictCharactersSprite ["enemySprite"] = enemySprite;
+
+    return dictCharactersSprite;
 
 }
 
-sf::Texture * Objects::getTexture(){
+ std::map <std::string,sf::Texture> Objects::getCharactersTexture(){
 
-    sf::Texture * arr = new sf::Texture[2];
+    std::map <std::string,sf::Texture> dictCharactersTexture;
+    
+    dictCharactersTexture ["heroTextureL"] = heroTextureL;
+    dictCharactersTexture ["heroTextureR"] = heroTextureR;
 
-    arr[0] = herotextureL;
-    arr[1] = herotextureR;
-
-    return arr;
+    dictCharactersTexture ["enemyTextureL"] = enemyTextureL;
+    dictCharactersTexture ["enemyTextureR"] = enemyTextureR;
+    
+    return dictCharactersTexture;
 
 }
