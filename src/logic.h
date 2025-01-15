@@ -3,6 +3,7 @@
 #include "SFML/Graphics/Texture.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
+//#include "SFML/Window/Keyboard.hpp"
 
 class Logic{
 
@@ -10,19 +11,21 @@ class Logic{
 
         sf::RenderWindow window ;
 
-        sf::Sprite heroSprite;
+        sf::Sprite heroSprite, enemySprite, bulletSprite;
+        
         sf::Texture heroTextureR, heroTextureL;
 
-        sf::Sprite enemySprite;
         sf::Texture enemyTextureR, enemyTextureL;
+
+        sf::Texture bulletTextureR, bulletTextureL;
         
-        bool direc_bool, jmp;
+        bool directHeroBool, jmp;
 
         std::vector<sf::Event::KeyEvent> pressedKeys;
 
-        int direc; // навравление движения
+        int directHero; // навравление движения
 
-        bool direcArr[2]; // проверка нажатия клавиш A/D
+        bool directHeroArr[2]; // проверка нажатия клавиш A/D
         
         float posY, posX [2]; // параметры для движения камерой
 
@@ -30,15 +33,21 @@ class Logic{
 
         std::vector <sf::Sprite> platforms;
 
+        std::pair <bool, bool> shoot;
+
+        std::vector <std::pair<sf::Sprite, int>> enemyVecSprite;
+
+        std::vector <std::pair<sf::Sprite, int>> bulletVecSprite;
+
     public:
 
         Logic();
 
-        void setSprite(std::vector <sf::Sprite>);
+        void setStaticSprite(std::map <std::string, std::vector <sf::Sprite>>);
 
-        void setCharactersSprite(std::map <std::string, sf::Sprite>);
+        void setInteractSprite(std::map <std::string, sf::Sprite>);
 
-        void setCharactersTexture(std::map <std::string,sf::Texture>);
+        void setInteractTexture(std::map <std::string,sf::Texture>);
 
         void mainCycle();
 };

@@ -2,12 +2,13 @@
 #include "SFML/Graphics/Texture.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <map>
 
 class Objects{
 
 public:
 
-// characters
+//  interact
 
     sf::Texture heroTextureL;
     sf::Texture heroTextureR;
@@ -21,7 +22,14 @@ public:
 
     sf::Sprite enemySprite;
 
-//  object
+    //
+
+    sf::Texture bulletTextureL;
+    sf::Texture bulletTextureR;
+
+    sf::Sprite bulletSprite;
+
+//  static
 
     sf::Texture platformTexture_1, platformTexture_2;
     sf::Sprite platformSprite_1, platformSprite_2;
@@ -32,10 +40,10 @@ public:
 
     Objects();
 
-    std::vector <sf::Sprite> getSprite();
-
-    std::map <std::string, sf::Sprite> getCharactersSprite();
-    std::map <std::string,sf::Texture> getCharactersTexture();
+    std::map <std::string,sf::Sprite> getInteractSprite();
+    std::map <std::string,sf::Texture> getInteractTexture();
+    
+    std::map <std::string, std::vector <sf::Sprite>> getStaticSprite(); // статические объекты (где не нужно работать с текстурами
 
 };
 

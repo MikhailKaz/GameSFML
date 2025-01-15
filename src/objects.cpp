@@ -1,9 +1,8 @@
 #include "objects.h"
-#include "SFML/Graphics/Sprite.hpp"
-#include "SFML/Graphics/Texture.hpp"
-#include <map>
 
 Objects::Objects(){
+
+//  interact
 
     heroTextureL.loadFromFile("images/HeroL.png");
     heroTextureR.loadFromFile("images/HeroR.png");
@@ -13,6 +12,8 @@ Objects::Objects(){
 
     heroSprite.setScale(sf::Vector2f(0.125f, 0.125f)); // размер спрайта
 
+//
+
     enemyTextureL.loadFromFile("images/enemyL.png");
     enemyTextureR.loadFromFile("images/enemyR.png");
 
@@ -20,7 +21,16 @@ Objects::Objects(){
     enemySprite.setPosition(300,735);
 
     enemySprite.setScale(sf::Vector2f(0.5f, 0.5f)); // размер спрайта
+
+//
+ 
+    bulletTextureL.loadFromFile("images/bulletL.png");
+    bulletTextureR.loadFromFile("images/bulletR.png");
     
+    bulletSprite.setTexture(bulletTextureR);
+
+//  static
+
     platformTexture_1.loadFromFile("images/pngwing.png");
     platformTexture_2.loadFromFile("images/pngwingCut.png");
 
@@ -40,33 +50,41 @@ Objects::Objects(){
     }
 }
 
-std::vector <sf::Sprite> Objects::getSprite(){
+std::map <std::string, std::vector <sf::Sprite>> Objects::getStaticSprite(){
     
-    return platforms;
+    std::map <std::string, std::vector <sf::Sprite>> dictStacicSprite;
+
+    dictStacicSprite ["platforms"] = platforms;
+
+    return dictStacicSprite;
 
 }
 
-std::map <std::string, sf::Sprite> Objects::getCharactersSprite(){
+std::map <std::string, sf::Sprite> Objects::getInteractSprite(){
 
-    std::map <std::string, sf::Sprite> dictCharactersSprite;
+    std::map <std::string, sf::Sprite> dictInteractSprite;
     
-    dictCharactersSprite ["heroSprite"] = heroSprite;
-    dictCharactersSprite ["enemySprite"] = enemySprite;
+    dictInteractSprite ["heroSprite"] = heroSprite;
+    dictInteractSprite ["enemySprite"] = enemySprite;
+    dictInteractSprite ["bulletSprite"] = bulletSprite;
 
-    return dictCharactersSprite;
+    return dictInteractSprite;
 
 }
 
- std::map <std::string,sf::Texture> Objects::getCharactersTexture(){
+ std::map <std::string,sf::Texture> Objects::getInteractTexture(){
 
-    std::map <std::string,sf::Texture> dictCharactersTexture;
+    std::map <std::string,sf::Texture> dictInteractTexture;
     
-    dictCharactersTexture ["heroTextureL"] = heroTextureL;
-    dictCharactersTexture ["heroTextureR"] = heroTextureR;
+    dictInteractTexture ["heroTextureL"] = heroTextureL;
+    dictInteractTexture ["heroTextureR"] = heroTextureR;
 
-    dictCharactersTexture ["enemyTextureL"] = enemyTextureL;
-    dictCharactersTexture ["enemyTextureR"] = enemyTextureR;
+    dictInteractTexture ["enemyTextureL"] = enemyTextureL;
+    dictInteractTexture ["enemyTextureR"] = enemyTextureR;
+
+    dictInteractTexture ["bulletTextureL"] = bulletTextureL;
+    dictInteractTexture ["bulletTextureR"] = bulletTextureR;
     
-    return dictCharactersTexture;
+    return dictInteractTexture;
 
 }

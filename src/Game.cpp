@@ -7,9 +7,9 @@ int main()
     Objects obj;
 
     Logic log;
-    log.setCharactersSprite(obj.getCharactersSprite());
-    log.setCharactersTexture(obj.getCharactersTexture());
-    log.setSprite(obj.getSprite());
+    log.setInteractSprite(obj.getInteractSprite());
+    log.setInteractTexture(obj.getInteractTexture());
+    log.setStaticSprite(obj.getStaticSprite());
     
     log.mainCycle();
     
