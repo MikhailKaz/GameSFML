@@ -11,7 +11,11 @@ Logic::Logic(){
 
     directHeroBool = false, jmp = false;
 
-    directHero = 0;
+    directHero = 1;
+
+    directHeroArr[0] = false;
+
+    directHeroArr[1] = false;
 
     posY = heroSprite.getPosition().y;
 
@@ -207,7 +211,7 @@ void Logic::mainCycle(){
                     enemySprite.setScale(sf::Vector2f(0.5f, 0.5f));
 
                     do{
-                        random = rand() % int(view.getCenter().x + view.getSize().x / 2) + view.getCenter().x - view.getSize().x / 2; // rand % b + a
+                        random = rand() % int(view.getSize().x) + view.getCenter().x - view.getSize().x / 2; // rand % (b-a) + a
                     }
                     while(random > (heroSprite.getPosition().x - 400) && random < heroSprite.getPosition().x + 400);
 
@@ -246,7 +250,7 @@ void Logic::mainCycle(){
 
                 std::pair <sf::Sprite, int> bullet;
 
-                if(directHero == 1 || directHero == 0){
+                if(directHero == 1){
 
                     bulletSprite.setPosition(heroSprite.getPosition().x + 60,heroSprite.getPosition().y + 32);
                     bulletSprite.setTexture(bulletTextureR);
@@ -259,12 +263,7 @@ void Logic::mainCycle(){
 
                 bullet.first = bulletSprite;
 
-                if(directHero != 0){
-                    bullet.second = directHero;
-                }
-                else{
-                    bullet.second = 1;
-                }
+                bullet.second = directHero;
                 
                 bulletVecSprite.push_back(bullet); // X/Y/направление
                 
@@ -309,40 +308,31 @@ void Logic::mainCycle(){
                 }
             }
 
-            for(int j = 0; j < bulletVecSprite.size(); j++){
-
-                if(bulletVecSprite[j].second == 1){
-
-                    for(int i = 0; i < enemyVecSprite.size(); i++){
-                        
-                        if(enemyVecSprite[i].first.getPosition().x + 60 >= bulletVecSprite[j].first.getPosition().x 
-                                && enemyVecSprite[i].first.getPosition().x <= bulletVecSprite[j].first.getPosition().x){
-
-                            if(enemyVecSprite[i].first.getPosition().y + 60 >= bulletVecSprite[j].first.getPosition().y 
-                                    && enemyVecSprite[i].first.getPosition().y <= bulletVecSprite[j].first.getPosition().y){
-
-                                enemyVecSprite.erase(enemyVecSprite.begin()+i);
-                                bulletVecSprite.erase(bulletVecSprite.begin()+j);
-
-                            }
-                        }
-                    }
+            for (int j = 0; j < bulletVecSprite.size(); j++) {
+                
+                int step, start, end;
+                    
+                if (bulletVecSprite[j].second == 1) {
+                    start = 0;
+                    end = enemyVecSprite.size();
+                    step = 1;
+                } 
+                else if (bulletVecSprite[j].second == -1) {
+                    start = enemyVecSprite.size() - 1;
+                    end = -1;
+                    step = -1;
                 }
 
-                else if(bulletVecSprite[j].second == -1){
+                for (int i = start; i != end; i += step) {
 
-                    for(int i = enemyVecSprite.size() - 1; i >= 0; i--){
-                        
-                        if(enemyVecSprite[i].first.getPosition().x + 60 >= bulletVecSprite[j].first.getPosition().x 
-                                && enemyVecSprite[i].first.getPosition().x <= bulletVecSprite[j].first.getPosition().x){
+                    if (enemyVecSprite[i].first.getPosition().x + 60 >= bulletVecSprite[j].first.getPosition().x 
+                        && enemyVecSprite[i].first.getPosition().x <= bulletVecSprite[j].first.getPosition().x) {
 
-                            if(enemyVecSprite[i].first.getPosition().y + 60 >= bulletVecSprite[j].first.getPosition().y 
-                                    && enemyVecSprite[i].first.getPosition().y <= bulletVecSprite[j].first.getPosition().y){
+                        if (enemyVecSprite[i].first.getPosition().y + 60 >= bulletVecSprite[j].first.getPosition().y &&
+                                enemyVecSprite[i].first.getPosition().y <= bulletVecSprite[j].first.getPosition().y) {
 
-                                enemyVecSprite.erase(enemyVecSprite.begin()+i);
-                                bulletVecSprite.erase(bulletVecSprite.begin()+j);
-
-                            }
+                            enemyVecSprite.erase(enemyVecSprite.begin() + i);
+                            bulletVecSprite.erase(bulletVecSprite.begin() + j);
                         }
                     }
                 }
